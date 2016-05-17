@@ -5,21 +5,30 @@
 #include "configuration_constants.h"
 #include <omp.h>
 #include <fstream>
+#include <vector>
+#include "Task.h"
 
-
-std::ifstream csv_Orders("order.csv");
+//
 
 using namespace std;
 
-Order orders[ORDER_SIZE];
+vector<Order> orders;
+vector<Task> tasks;
 
-Order::read_Orders();
 
 
 int main(){
 
-read_Orders();
+
+	orders=Order::read_Orders();
+	Order::print_Orders(orders);
+
+	tasks=Task::getTasks(orders);
+	Task::printTasks(tasks);
+
 	Chef chef("1");
+
+	cout<<"End";
 	
 
 	return 0;
