@@ -103,7 +103,7 @@ public:
 
 		    if(stoi(receipe_1)!=0)
 		    {
-		    	OrderItem* orderitem = new OrderItem(1,RECIEPE_1,stoi(receipe_1));
+		    	OrderItem* orderitem = new OrderItem(1,RECIPE_1,stoi(receipe_1));
 		    	orderitems.push_back(*orderitem);
 		    }
 		    
@@ -113,7 +113,7 @@ public:
 
 		    if(stoi(receipe_2)!=0)
 		    {
-		    	OrderItem* orderitem =new OrderItem(2,RECIEPE_2,stoi(receipe_2));
+		    	OrderItem* orderitem =new OrderItem(2,RECIPE_2,stoi(receipe_2));
 		    	orderitems.push_back(*orderitem);
 		    }
 
@@ -122,7 +122,7 @@ public:
 
 		    if(stoi(receipe_3)!=0)
 		    {
-		    	OrderItem* orderitem = new OrderItem(3,RECIEPE_3,stoi(receipe_3));
+		    	OrderItem* orderitem = new OrderItem(3,RECIPE_3,stoi(receipe_3));
 		    	orderitems.push_back(*orderitem);
 		    }
 

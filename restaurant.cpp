@@ -4,10 +4,11 @@
 #include "order.h"
 #include "configuration_constants.h"
 #include <omp.h>
+#include "configuration_constants.h"
 #include <fstream>
 #include <vector>
 #include "Task.h"
-
+#include "inventory.h"
 //
 
 using namespace std;
@@ -25,14 +26,22 @@ int main() {
 
 	Kitchen* kitchen = new Kitchen;
 
+	//inventory
+	Inventory::scanInventory();
+	Inventory::showInventory();
 
+	//Inventory::getItems(LETTUCE,1);
 
 	for(int i=0;i<tasks.size();i++){
 
 		vector<Chef*> section = Kitchen::getASection(tasks[i].getTaskType());
 		section[Kitchen::getAChef(tasks[i].getTaskType())]->cook();
 
+
 	}
+
+	Inventory::showInventory();
+
 
 	//Chefs::chefr1[1]->cook();
 
