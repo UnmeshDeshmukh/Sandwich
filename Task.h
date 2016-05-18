@@ -20,19 +20,31 @@ class Task {
 	int task_id;
 	int order_id;
 	string task_type;
+	string task_status;
 
 public:
 
 	Task(int task_id, int order_id, string task_type) {
-		this->task_id =task_id;
-		this->order_id= order_id;
-		this->task_type=task_type;
+		this->task_id = task_id;
+		this->order_id = order_id;
+		this->task_type = task_type;
+		this->task_status = INCOMPLETE;
+
 	}
 
+	void changeStatus(string new_status) {
+		task_status = new_status;
+	}
+
+	string getStatus() {
+		return task_status;
+	}
 	static vector<Task> getTasks(vector<Order> orders) {
 		int task_count = 0;
+
 		vector < Task > tasks;
 		for (int i = 0; i < orders.size(); i++) {
+			int initial_task_count = task_count;
 			for (int j = 0; j < orders[i].getOrderitems().size(); j++) {
 
 				for (int k = 0;
@@ -44,6 +56,8 @@ public:
 					tasks.push_back(*task);
 				}
 			}
+
+			orders[i].updateTaskCount(task_count - initial_task_count);
 		}
 		return tasks;
 	}
@@ -54,7 +68,8 @@ public:
 
 			cout << "Task ID : " << tasks[i].getTaskId() << "\tTask Type : "
 					<< tasks[i].getTaskType() << "\tOrder ID : "
-					<< tasks[i].getOrderId() << endl;
+					<< tasks[i].getOrderId() << "\tStatus :"
+					<< tasks[i].getStatus() << endl;
 		}
 	}
 

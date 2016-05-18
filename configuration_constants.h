@@ -21,3 +21,6 @@
 #define MULTI_GRAIN "Multi Grain"
 
 
+#define INCOMPLETE "INCOMPLETE"
+#define COMPLETE "COMPLETE"
+#define INPROGRESS "IN PROGRESS"

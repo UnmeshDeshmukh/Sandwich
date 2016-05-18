@@ -15,6 +15,7 @@ using namespace std;
 
 vector<Order> orders;
 vector<Task> tasks;
+//map<Order,vector<Task>> reducer
 
 int main() {
 
@@ -32,18 +33,29 @@ int main() {
 
 	//Inventory::getItems(LETTUCE,1);
 
-	for(int i=0;i<tasks.size();i++){
+	for (int i = 0; i < tasks.size(); i++) {
 
 		vector<Chef*> section = Kitchen::getASection(tasks[i].getTaskType());
-		section[Kitchen::getAChef(tasks[i].getTaskType())]->cook();
+		if (section[Kitchen::getAChef(tasks[i].getTaskType())]->cook())
+			tasks[i].changeStatus(COMPLETE);
+		else
+			tasks[i].changeStatus(INCOMPLETE);
+
 
 
 	}
 
+	for (int i = 0; i < tasks.size(); i++){
+
+	}
+
+
+	cout << "\nPrinting finally" << endl;
 	Inventory::showInventory();
-
-
-	//Chefs::chefr1[1]->cook();
+	cout << "Task status as of now" << endl;
+	Task::printTasks(tasks);
+	Order::print_Orders(orders);
+//Chefs::chefr1[1]->cook();
 
 	cout << "End";
 

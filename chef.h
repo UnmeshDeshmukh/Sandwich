@@ -26,7 +26,7 @@ public:
 
 	static vector<Chef*> hireChef(string speciality, int number_of_position);
 
-	virtual void cook() = 0;
+	virtual bool cook() = 0;
 
 };
 
@@ -41,14 +41,19 @@ public:
 		reciepe[SOURDOUGH] = 1;
 
 	}
-	void cook() {
-		cout << "....Cooking SandWich..." << endl;
+	bool cook() {
 
 		//Atomic
-		if (Inventory::isItemAvailable(reciepe))
+		if (Inventory::isItemAvailable(reciepe)) {
 			Inventory::getItems(reciepe);
-		//Atomic end
-		usleep(6500);
+			cout << "....Cooking Veggie..." << endl;
+			//Atomic end
+			usleep(6500);
+			return true;
+		} else {
+			return false;
+
+		}
 
 	}
 
@@ -58,12 +63,22 @@ class ChickenChef: public Chef {
 public:
 	ChickenChef() :
 			Chef() {
-
+		reciepe[OLIVES] = 8;
+		reciepe[ONIONS] = 5;
+		reciepe[TOMATOES] = 4;
+		reciepe[CHICKEN] = 4;
+		reciepe[MULTI_GRAIN] = 1;
 	}
-	void cook() {
-		cout << "....Cooking Wrap..." << endl;
-		usleep(6000);
+	bool cook() {
 
+		//Atomic
+		if (Inventory::isItemAvailable(reciepe)) {
+			Inventory::getItems(reciepe);
+			cout << "....Cooking Chicken..." << endl;
+			usleep(6000);
+			return true;
+		} else
+			return false;
 	}
 
 };
@@ -72,12 +87,20 @@ class HamChef: public Chef {
 public:
 	HamChef() :
 			Chef() {
-
+		reciepe[HAM] = 2;
+		reciepe[TURKEY] = 2;
+		reciepe[LETTUCE] = 5;
+		reciepe[TOMATOES] = 3;
+		reciepe[ITALIAN_BREAD] = 1;
 	}
-	void cook() {
-		usleep(4000);
-		cout << "....Cooking Juice..." << endl;
-
+	bool cook() {
+		if (Inventory::isItemAvailable(reciepe)) {
+			Inventory::getItems(reciepe);
+			cout << "....Cooking Ham..." << endl;
+			usleep(6000);
+			return true;
+		} else
+			return false;
 	}
 
 };
@@ -129,9 +152,9 @@ public:
 
 	Kitchen() {
 
-		section_1 = Chef::hireChef(RECIPE_1, 5);
-		section_2 = Chef::hireChef(RECIPE_2, 6);
-		section_3 = Chef::hireChef(RECIPE_3, 7);
+		section_1 = Chef::hireChef(RECIPE_1, 2);
+		section_2 = Chef::hireChef(RECIPE_2, 1);
+		section_3 = Chef::hireChef(RECIPE_3, 2);
 
 	}
 
