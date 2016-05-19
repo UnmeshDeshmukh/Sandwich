@@ -1,0 +1,3 @@
+g++ -O0 -g3 -Wall -fopenmp -c -fmessage-length=0 -std=c++11  -o restaurant.o restaurant.cpp 
+g++ -O0 -g3 -Wall -fopenmp -c -fmessage-length=0 -std=c++11  -o inventory.o inventory.cpp 
+g++ -o 275-project-2 restaurant.o inventory.o -fopenmp
