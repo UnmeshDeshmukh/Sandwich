@@ -74,6 +74,9 @@ public:
 
 	}
 
+	bool operator <(const Order& rhs) const {
+		return order_id < rhs.order_id;
+	}
 	void updateTaskCount(int task_count) {
 		this->task_count = task_count;
 	}
@@ -156,7 +159,9 @@ public:
 	static void print_Orders(vector<Order> orders) {
 		cout << "\n---ORDERS---\n";
 		for (int i = 0; i < orders.size(); i++) {
-			cout << orders[i].customer_name << "\tTASK COUNT:"
+
+			cout << "Order ID :" << orders[i].getOrderId()
+					<< orders[i].customer_name << "\tTASK COUNT:"
 					<< orders[i].getTaskCount() << "\tORDER STATUS:"
 					<< orders[i].getStatus() << endl;
 		}
@@ -193,3 +198,4 @@ public:
 		this->orderitems = orderitems;
 	}
 };
+

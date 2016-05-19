@@ -36,29 +36,49 @@ public:
 		task_status = new_status;
 	}
 
+
 	string getStatus() {
 		return task_status;
 	}
-	static vector<Task> getTasks(vector<Order> orders) {
+	static vector<Task> getTasks(vector<Order>* orders) {
 		int task_count = 0;
 
 		vector < Task > tasks;
-		for (int i = 0; i < orders.size(); i++) {
+
+		for (vector<Order>::iterator it = orders->begin(); it != orders->end();
+				++it) {
 			int initial_task_count = task_count;
-			for (int j = 0; j < orders[i].getOrderitems().size(); j++) {
 
-				for (int k = 0;
-						k < orders[i].getOrderitems()[j].getOrderItemCount();
+			for (int j = 0; j < it->getOrderitems().size(); j++) {
+
+				for (int k = 0; k < it->getOrderitems()[j].getOrderItemCount();
 						k++) {
-
-					Task* task = new Task(task_count++, orders[i].getOrderId(),
-							orders[i].getOrderitems()[j].getOrderItemName());
+					Task* task = new Task(task_count++, it->getOrderId(),
+							it->getOrderitems()[j].getOrderItemName());
 					tasks.push_back(*task);
 				}
 			}
-
-			orders[i].updateTaskCount(task_count - initial_task_count);
+			 it->updateTaskCount(task_count - initial_task_count);
 		}
+
+		/*
+		 for (int i = 0; i < orders.size(); i++) {
+		 int initial_task_count = task_count;
+		 for (int j = 0; j < orders[i].getOrderitems().size(); j++) {
+
+		 for (int k = 0;
+		 k < orders[i].getOrderitems()[j].getOrderItemCount();
+		 k++) {
+
+		 Task* task = new Task(task_count++, orders[i].getOrderId(),
+		 orders[i].getOrderitems()[j].getOrderItemName());
+		 tasks.push_back(*task);
+		 }
+		 }
+
+		 orders[i].updateTaskCount(task_count - initial_task_count);
+		 }*/
+
 		return tasks;
 	}
 
