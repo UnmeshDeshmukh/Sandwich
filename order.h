@@ -4,6 +4,7 @@
 #include <fstream>
 //#include <stdlib>
 #include <vector>
+#include <omp.h>
 
 using namespace std;
 
@@ -158,13 +159,17 @@ public:
 
 	static void print_Orders(vector<Order> orders) {
 		cout << "\n---ORDERS---\n";
-		for (int i = 0; i < orders.size(); i++) {
 
-			cout << "Order ID :" << orders[i].getOrderId()
-					<< orders[i].customer_name << "\tTASK COUNT:"
-					<< orders[i].getTaskCount() << "\tORDER STATUS:"
-					<< orders[i].getStatus() << endl;
-		}
+
+
+			for (int i = 0; i < orders.size(); i++) {
+
+				cout << "Order ID :" << orders[i].getOrderId()
+						<< orders[i].customer_name << "\tTASK COUNT:"
+						<< orders[i].getTaskCount() << "\tORDER STATUS:"
+						<< orders[i].getStatus() << endl;
+			}
+
 		cout << "\n---ORDERS---\n";
 
 	}

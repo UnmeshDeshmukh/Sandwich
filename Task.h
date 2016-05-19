@@ -84,6 +84,7 @@ public:
 
 	static void printTasks(vector<Task> tasks) {
 
+#pragma omp for
 		for (int i = 0; i < tasks.size(); i++) {
 
 			cout << "Task ID : " << tasks[i].getTaskId() << "\tTask Type : "

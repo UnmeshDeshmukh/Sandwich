@@ -6,6 +6,8 @@
  */
 
 #include "inventory.h"
+#include <omp.h>
+#include "omp_sync.h"
 
 std::ifstream input_kitchen_inventory("./config/kitchen_inventory.config");
 InventoryCfg Inventory::config;
@@ -20,12 +22,16 @@ Inventory::~Inventory() {
 }
 
 void Inventory::showInventory() {
-	for (map<string, int>::const_iterator it = config.begin();
-			it != config.end(); ++it) {
-		//int converted = atoi(it->second.c_str());
-		std::cout << "INGREDIENT NAME =" << it->first << " INGREDIENT STOCK ="
-				<< it->second << " " << "\n";
 
+#pragma omp parallel
+	{
+		for (map<string, int>::const_iterator it = config.begin();
+				it != config.end(); ++it) {
+			//int converted = atoi(it->second.c_str());
+			std::cout << "INGREDIENT NAME =" << it->first
+					<< " INGREDIENT STOCK =" << it->second << " " << "\n";
+
+		}
 	}
 }
 
@@ -44,25 +50,32 @@ void Inventory::scanInventory() {
 
 bool Inventory::isItemAvailable(map<string, int> recipe) {
 
+	Mutex::getMutex()->lock();
+
 	for (map<string, int>::const_iterator it = recipe.begin();
 			it != recipe.end(); ++it) {
 		//int converted = atoi(it->second.c_str());
-	//	std::cout << "INGREDIENT NAME =" << it->first << " INGREDIENT STOCK ="
+		//	std::cout << "INGREDIENT NAME =" << it->first << " INGREDIENT STOCK ="
 		//		<< it->second << " " << "\n";
 
 		if ((it->second) <= config[it->first]) {
 			continue;
 		} else {
+			Mutex::getMutex()->unlock();
+
 			return false;
 		}
 
 	}
+	Mutex::getMutex()->unlock();
+
 	return true;
 
 }
 void Inventory::getItems(map<string, int> recipe) {
 
-	//
+	Mutex::getMutex()->lock();
+
 	for (map<string, int>::const_iterator it = recipe.begin();
 			it != recipe.end(); ++it) {
 		//int converted = atoi(it->second.c_str());
@@ -72,6 +85,7 @@ void Inventory::getItems(map<string, int> recipe) {
 		config[it->first] = config[it->first] - it->second;
 
 	}
+	Mutex::getMutex()->unlock();
 
 }
 

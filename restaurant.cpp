@@ -18,6 +18,7 @@ vector<Task> tasks;
 map<Order, vector<Task>> reducer;
 int orders_delivered = 0;
 int total_processed_orders = 0;
+double initial_time, end_time;
 
 int main() {
 
@@ -26,60 +27,80 @@ int main() {
 	Order::print_Orders(orders);
 
 	tasks = Task::getTasks(&orders);
-	Task::printTasks(tasks);
+	//Task::printTasks(tasks);
 
 	Kitchen* kitchen = new Kitchen;
 	//inventory
 
 	//Inventory::getItems(LETTUCE,1);
-	while (true) {
-		Inventory::scanInventory();
-		Inventory::showInventory();
 
+	//while (true) {
+	Inventory::scanInventory();
+	Inventory::showInventory();
+	omp_set_num_threads(5);
+	initial_time = omp_get_wtime();
+#pragma omp parallel
+	{
+
+#pragma omp for
 		for (int i = 0; i < tasks.size(); i++) {
 
-			if (!tasks[i].getStatus().compare(INCOMPLETE)) {
-				vector<Chef*> section = Kitchen::getASection(
-						tasks[i].getTaskType());
-				if (section[Kitchen::getAChef(tasks[i].getTaskType())]->cook())
-					tasks[i].changeStatus(COMPLETE);
-				else
-					tasks[i].changeStatus(INCOMPLETE);
+			{
+				if (!tasks[i].getStatus().compare(INCOMPLETE)) {
+					vector<Chef*> section = Kitchen::getASection(
+							tasks[i].getTaskType());
+
+					if (section[Kitchen::getAChef(tasks[i].getTaskType())]->cook())
+						tasks[i].changeStatus(COMPLETE);
+					else
+						tasks[i].changeStatus(INCOMPLETE);
+				}
+
 			}
+
 		}
 
+#pragma omp parallel for
 		for (int i = 0; i < tasks.size(); i++) {
 			if (!tasks[i].getStatus().compare(COMPLETE)) {
 
-				reducer[orders[tasks[i].getOrderId()]].push_back(tasks[i]);
-
+#pragma omp critical
+				{
+					reducer[orders[tasks[i].getOrderId()]].push_back(tasks[i]);
+				}
 				//	reducer.insert(reducer[orders[tasks[i].getOrderId()]],reducer[orders[tasks[i].getOrderId()]);
 
 				if (reducer[orders[tasks[i].getOrderId()]].size()
 						== orders[tasks[i].getOrderId()].getTaskCount()) {
 
 					orders_delivered++;
-					cout << tasks[i].getTaskId();
-
+					//	cout << tasks[i].getTaskId();
+					orders[tasks[i].getOrderId()].changeStatus(COMPLETE);
 				}
 
 			}
 		}
 
 		Inventory::showInventory();
-		Task::printTasks(tasks);
-		Order::print_Orders(orders);
+		//	Task::printTasks(tasks);
 
-		cout << "OVERALL STATUS : " << orders_delivered << "/" << orders.size()
-				<< " orders delivered" << endl;
+		//cout << "Do you want to replenish?" << endl;
+		//cin >> ans;
 
-		cout << "Do you want to replenish?" << endl;
-		cin >> ans;
-
-		if (ans != 'Y')
-			break;
 	}
-	cout << "End";
 
+	//	if (ans != 'Y')
+	//	break;
+
+	cout << "End";
+	//}
+	end_time = omp_get_wtime();
+	Order::print_Orders(orders);
+	cout << "OVERALL STATUS : " << orders_delivered << "/" << orders.size()
+			<< " orders delivered" << endl;
+
+
+	cout << "\nTask assignment and execution time =" << end_time - initial_time
+			<< endl;
 	return 0;
 }

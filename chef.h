@@ -3,7 +3,7 @@
 #include <map>
 #include <string>
 #include <vector>
-
+#include <omp.h>
 #include "configuration_constants.h"
 #include "inventory.h"
 
@@ -47,17 +47,17 @@ public:
 	bool cook() {
 
 		//Atomic
+		bool isCompleted = false;
+
 		if (Inventory::isItemAvailable(reciepe)) {
 			Inventory::getItems(reciepe);
 			cout << "....Cooking Veggie..." << endl;
 			//Atomic end
 			usleep(6500);
-			return true;
-		} else {
-			return false;
-
+			isCompleted = true;
 		}
 
+		return isCompleted;
 	}
 
 };
@@ -201,5 +201,5 @@ vector<Chef*> Kitchen::section_3;
 int Kitchen::section_1_pointer = 0;
 int Kitchen::section_2_pointer = 0;
 int Kitchen::section_3_pointer = 0;
-InventoryCfg Inventory::config;
+KitchenCfg Kitchen::kitchenCfg;
 
