@@ -9,6 +9,9 @@
 
 using namespace std;
 
+ifstream input_kitchen_config("./config/kitchen.config");
+typedef map<string, int> KitchenCfg;
+
 class Chef {
 	int chef_id;
 	static int number_of_chef;
@@ -149,12 +152,22 @@ public:
 	static int section_1_pointer;
 	static int section_2_pointer;
 	static int section_3_pointer;
+	static KitchenCfg kitchenCfg;
 
 	Kitchen() {
+		string s;
+		//input_kitchen_config.clear();
+		input_kitchen_config.seekg(0, std::ios::beg);
+		while (getline(input_kitchen_config, s)) {
+			kitchenCfg[s.substr(0, s.find(':'))] = stoi(
+					s.substr(s.find(':') + 1));
+			//	counter++;
 
-		section_1 = Chef::hireChef(RECIPE_1, 2);
-		section_2 = Chef::hireChef(RECIPE_2, 1);
-		section_3 = Chef::hireChef(RECIPE_3, 2);
+		}
+
+		section_1 = Chef::hireChef(RECIPE_1, kitchenCfg[KITCHEN_SECTION_1]);
+		section_2 = Chef::hireChef(RECIPE_2, kitchenCfg[KITCHEN_SECTION_2]);
+		section_3 = Chef::hireChef(RECIPE_3, kitchenCfg[KITCHEN_SECTION_3]);
 
 	}
 
@@ -188,3 +201,5 @@ vector<Chef*> Kitchen::section_3;
 int Kitchen::section_1_pointer = 0;
 int Kitchen::section_2_pointer = 0;
 int Kitchen::section_3_pointer = 0;
+InventoryCfg Inventory::config;
+

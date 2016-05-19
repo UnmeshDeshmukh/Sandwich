@@ -24,3 +24,8 @@
 #define INCOMPLETE "INCOMPLETE"
 #define COMPLETE "COMPLETE"
 #define INPROGRESS "IN PROGRESS"
+
+
+#define KITCHEN_SECTION_1 "section_1"
+#define KITCHEN_SECTION_2 "section_2"
+#define KITCHEN_SECTION_3 "section_3"
