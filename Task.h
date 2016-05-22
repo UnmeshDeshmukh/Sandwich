@@ -36,14 +36,13 @@ public:
 		task_status = new_status;
 	}
 
-
 	string getStatus() {
 		return task_status;
 	}
 	static vector<Task> getTasks(vector<Order>* orders) {
 		int task_count = 0;
 
-		vector < Task > tasks;
+		vector<Task> tasks;
 
 		for (vector<Order>::iterator it = orders->begin(); it != orders->end();
 				++it) {
@@ -58,7 +57,7 @@ public:
 					tasks.push_back(*task);
 				}
 			}
-			 it->updateTaskCount(task_count - initial_task_count);
+			it->updateTaskCount(task_count - initial_task_count);
 		}
 
 		/*
@@ -94,6 +93,16 @@ public:
 		}
 	}
 
+	static double getTaskCost(Task task) {
+		if (task.task_type.compare(RECIPE_1)) {
+			return RECIPE_1_PRICE;
+		} else if (task.task_type.compare(RECIPE_2)) {
+			return RECIPE_2_PRICE;
+		} else if (task.task_type.compare(RECIPE_3)) {
+			return RECIPE_3_PRICE;
+
+		}
+	}
 	int getOrderId() const {
 		return order_id;
 	}

@@ -12,7 +12,7 @@
 #
 # for C++ define  CC = g++
 CC = g++
-CFLAGS  = -O0 -g3 -Wall -fopenmp -c -fmessage-length=0 -std=c++11 
+CFLAGS  = -O0 -g3 -Wall -fopenmp -c -fmessage-length=0 -std=c++14 -I /home/vinit/275-project-2/boost_1_60_0/include /home/vinit/275-project-2/boost_1_60_0/lib/libboost_system.a /home/vinit/275-project-2/boost_1_60_0/lib/libboost_chrono.a
 
 # typing 'make' will invoke the first target entry in the file 
 # (in this case the default target entry)
@@ -24,8 +24,8 @@ default: build
 # To create the executable file count we need the object files
 # countwords.o, counter.o, and scanner.o:
 #
-build:  restaurant inventory 
-	$(CC) -o 275-project-2 restaurant.o inventory.o -fopenmp
+build:  restaurant inventory Kitchen Chef
+	$(CC) -o 275-project-2 restaurant.o inventory.o Kitchen.o Chef.o -fopenmp -I /home/vinit/275-project-2/boost_1_60_0/include /home/vinit/275-project-2/boost_1_60_0/lib/libboost_system.a /home/vinit/275-project-2/boost_1_60_0/lib/libboost_chrono.a -std=c++14
 
 # To create the object file countwords.o, we need the source
 # files countwords.c, scanner.h, and counter.h:
@@ -34,9 +34,19 @@ restaurant:
 	$(CC) $(CFLAGS) -o restaurant.o restaurant.cpp 
 # To create the object file counter.o, we need the source files
 # counter.c and counter.h:
-#
+#g++ -I /home/vinit/275-project-2/boost_1_60_0/include chrono-ex.cpp  -o chrono-ex /home/vinit/275-project-2/boost_1_60_0/lib/libboost_chrono.a /home/vinit/275-project-2/boost_1_60_0/lib/libboost_system.a -std=c++14
+
+
+
 inventory:  
 	$(CC) $(CFLAGS) -o inventory.o inventory.cpp 
+
+Kitchen:  
+	$(CC) $(CFLAGS) -o Kitchen.o Kitchen.cpp 
+
+Chef:
+	$(CC) $(CFLAGS) -o Chef.o Chef.cpp 
+
 
 # To create the object file scanner.o, we need the source files
 # scanner.c and scanner.h:
@@ -46,5 +56,5 @@ inventory:
 # removes the executable file, as well as old .o object
 # files and *~ backup files:
 #
-clean: 
-	$(RM) build *.o *~
+#clean: 
+#	$(RM) build *.o *~

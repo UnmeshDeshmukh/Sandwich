@@ -23,16 +23,14 @@ Inventory::~Inventory() {
 
 void Inventory::showInventory() {
 
-#pragma omp parallel
-	{
-		for (map<string, int>::const_iterator it = config.begin();
-				it != config.end(); ++it) {
-			//int converted = atoi(it->second.c_str());
-			std::cout << "INGREDIENT NAME =" << it->first
-					<< " INGREDIENT STOCK =" << it->second << " " << "\n";
+	for (map<string, int>::const_iterator it = config.begin();
+			it != config.end(); ++it) {
+		//int converted = atoi(it->second.c_str());
+		std::cout << "INGREDIENT NAME =" << it->first << " INGREDIENT STOCK ="
+				<< it->second << " " << "\n";
 
-		}
 	}
+
 }
 
 void Inventory::scanInventory() {
