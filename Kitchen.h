@@ -2,9 +2,10 @@
  * Kitchen.h
  *
  *  Created on: May 21, 2016
- *      Author: vinit
+ *      Author: Vinit, Faisal, Unmesh
  */
 
+//Variables, getters and setters for Kitchen.cpp
 #ifndef KITCHEN_H_
 #define KITCHEN_H_
 
@@ -14,16 +15,15 @@
 #include <boost/array.hpp>
 
 using namespace std;
-typedef map<string, int> KitchenCfg;
+typedef map<string, int> KitchenCfg;		// Map to save kitchen configuration
 
 class Kitchen {
 
 	int kitchen_id;
 	static int number_of_kitchens;
 
-//static Kitchen* kitchen_instance;
 public:
-	static  unsigned long int NUM_OF_KITCHENS;
+	static unsigned long int NUM_OF_KITCHENS;
 	Kitchen();
 	vector<Chef*> section_1;
 	vector<Chef*> section_2;
@@ -34,13 +34,10 @@ public:
 	int section_2_pointer;
 	int section_3_pointer;
 	static KitchenCfg kitchenCfg;
-//	virtual ~Kitchen();
 
-//	static Kitchen* getKitchen();
 	int getAChef(string speciality);
 	vector<Chef*> getASection(string speciality);
-	static void showKitchens(
-			vector<Kitchen> kitchens);
+	static void showKitchens(vector<Kitchen> kitchens);
 	static void readKitchenConfiguration();
 
 };

@@ -1,3 +1,5 @@
+// Mutex declaration and definition
+
 #include <omp.h>
 
 class Mutex {

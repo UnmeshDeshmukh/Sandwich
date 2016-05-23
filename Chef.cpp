@@ -2,7 +2,7 @@
  * Chef.cpp
  *
  *  Created on: May 22, 2016
- *      Author: vinit
+ *      Author: Vinit,	Unmesh,	Faisal
  */
 
 #include "Chef.h"
@@ -19,6 +19,7 @@ Chef::Chef(Kitchen* kitchen) {
 
 VeggieChef::VeggieChef(Kitchen* kitchen) :
 		Chef(kitchen) {
+	//Required inventory for Veggie Sandwich
 	reciepe[LETTUCE] = 3;
 	reciepe[OLIVES] = 4;
 	reciepe[ONIONS] = 2;
@@ -27,60 +28,22 @@ VeggieChef::VeggieChef(Kitchen* kitchen) :
 }
 
 bool VeggieChef::cook() {
-
-	//Atomic
-	bool isCookingDone = false;
-
-	if (Inventory::isItemAvailable(reciepe)) {
-		Inventory::getItems(reciepe);
+	bool isCookingDone = false; 						// Before cooking starts (Cooking is incomplete)
+	if (Inventory::isItemAvailable(reciepe) && Inventory::getItems(reciepe)) {
 		cout << "....Cooking Veggie..." << endl;
-		//Atomic end
 		if (kitchen->section_1.size() != 0) {
-			usleep(10500 / kitchen->section_1.size());
-			isCookingDone = true;
+			usleep(RECIEPE_1_TIME / kitchen->section_1.size()); 	// Cooking time required for each unit //Time reduces if number of Chefs in the section are increased
+			isCookingDone = true; 						// After cooking completes (Cooking is complete)
 		} else {
-			isCookingDone = false;
+			isCookingDone = false; 						// If unable to find or retrieve items from the inventory (Cooking is incomplete)
 		}
-
 	}
 
 	return isCookingDone;
 }
-vector<Chef*> Chef::hireChef(string speciality, int number_of_position,
-		Kitchen* kitchen) {
-
-	vector<Chef*> chef;
-	if (!speciality.compare(RECIPE_1)) {
-		//return new vector<SandwichChef>(number_of_position);
-		for (int i = 1; i <= number_of_position; i++) {
-
-			VeggieChef* sandwichChef = new VeggieChef(kitchen);
-			chef.push_back(sandwichChef);
-		}
-		return chef;
-
-	} else if (!speciality.compare(RECIPE_2)) {
-		//return new vector<WrapChef>(number_of_position);
-		for (int i = 1; i <= number_of_position; i++) {
-
-			ChickenChef* wrapchef = new ChickenChef(kitchen);
-			chef.push_back(wrapchef);
-		}
-		return chef;
-	} else if (!speciality.compare(RECIPE_3)) {
-		//	return new vector<JuiceChef>(number_of_position);
-		for (int i = 1; i <= number_of_position; i++) {
-
-			HamChef* juicechef = new HamChef(kitchen);
-			chef.push_back(juicechef);
-		}
-		return chef;
-	}
-
-}
-
 ChickenChef::ChickenChef(Kitchen* kitchen) :
 		Chef(kitchen) {
+	//Required inventory for Chicken Sandwich
 	reciepe[OLIVES] = 8;
 	reciepe[ONIONS] = 5;
 	reciepe[TOMATOES] = 4;
@@ -90,21 +53,20 @@ ChickenChef::ChickenChef(Kitchen* kitchen) :
 
 bool ChickenChef::cook() {
 //Atomic
-	bool isCookingDone = false;
-
-	if (Inventory::isItemAvailable(reciepe)) {
-		Inventory::getItems(reciepe);
+	bool isCookingDone = false;							// Before cooking starts (Cooking is incomplete)
+	if (Inventory::isItemAvailable(reciepe) && Inventory::getItems(reciepe)) {
 		cout << "....Cooking Chicken..." << endl;
-		usleep(11000 / kitchen->section_2.size());
-		isCookingDone = true;
+		usleep(RECIEPE_2_TIME / kitchen->section_2.size());		// Cooking time required for each unit //Time reduces if number of Chefs in the section are increased
+		isCookingDone = true; 							// After cooking completes (Cooking is complete)
 	} else {
-		isCookingDone = false;
+		isCookingDone = false;							// If unable to find or retrieve items from the inventory (Cooking is incomplete)
 	}
 	return isCookingDone;
 }
 
 HamChef::HamChef(Kitchen* kitchen) :
 		Chef(kitchen) {
+	//Required inventory for Spicy Italian
 	reciepe[HAM] = 2;
 	reciepe[TURKEY] = 2;
 	reciepe[LETTUCE] = 5;
@@ -113,18 +75,43 @@ HamChef::HamChef(Kitchen* kitchen) :
 }
 
 bool HamChef::cook() {
-	bool isCookingDone = false;
-	if (Inventory::isItemAvailable(reciepe)) {
-		Inventory::getItems(reciepe);
+	bool isCookingDone = false;							// Before cooking starts (Cooking is incomplete)
+	if (Inventory::isItemAvailable(reciepe) && Inventory::getItems(reciepe)) {
 		cout << "....Cooking Ham..." << endl;
 		if (kitchen->section_3.size() != 0) {
-			usleep(8000 / kitchen->section_3.size());
-			isCookingDone = true;
+			usleep(RECIEPE_3_TIME / kitchen->section_3.size());	// Cooking time required for each unit //Time reduces if number of Chefs in the section are increased
+			isCookingDone = true; 						// After cooking completes (Cooking is complete)
 		}
 	} else {
-		isCookingDone = false;
+		isCookingDone = false;							// If unable to find or retrieve items from the inventory (Cooking is incomplete)
 	}
 
 	return isCookingDone;
+
+}
+vector<Chef*> Chef::hireChef(string speciality, int number_of_position,
+		Kitchen* kitchen) {
+
+	vector<Chef*> chef;									//Creating a chef vector
+	if (!speciality.compare(RECIPE_1)) {
+		for (int i = 1; i <= number_of_position; i++) {
+			VeggieChef* veggieChef = new VeggieChef(kitchen);		// Instantiating a new VeggieChef
+			chef.push_back(veggieChef);					// Adding the created VeggieChef to chef vector
+		}
+		return chef;
+
+	} else if (!speciality.compare(RECIPE_2)) {
+		for (int i = 1; i <= number_of_position; i++) {
+			ChickenChef* chickenchef = new ChickenChef(kitchen);	// Instantiating a new ChickenChef
+			chef.push_back(chickenchef);				// Adding the created ChickenChef to chef vector
+		}
+		return chef;
+	} else if (!speciality.compare(RECIPE_3)) {
+		for (int i = 1; i <= number_of_position; i++) {
+			HamChef* hamchef = new HamChef(kitchen);				// Instantiating a new HamChef
+			chef.push_back(hamchef);					// Adding the created HamChef to chef vector
+		}
+		return chef;
+	}
 
 }

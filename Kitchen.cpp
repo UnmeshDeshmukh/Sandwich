@@ -10,17 +10,11 @@
 #include <vector>
 
 using namespace std;
-/*
- vector<Chef*> Kitchen::section_1;
- vector<Chef*> Kitchen::section_2;
- vector<Chef*> Kitchen::section_3;
- int Kitchen::section_1_pointer = 0;
- int Kitchen::section_2_pointer = 0;
- int Kitchen::section_3_pointer = 0;*/
+
 KitchenCfg Kitchen::kitchenCfg;
 int Kitchen::number_of_kitchens = 0;
 unsigned long int Kitchen::NUM_OF_KITCHENS = 0;
-//Kitchen* Kitchen::kitchen_instance;
+
 ifstream input_kitchen_config("./config/kitchen.config");
 Kitchen::Kitchen() {
 
@@ -29,11 +23,10 @@ Kitchen::Kitchen() {
 	section_1_pointer = 0;
 	section_2_pointer = 0;
 	section_3_pointer = 0;
-	//input_kitchen_config.clear();
 
-	section_1 = Chef::hireChef(RECIPE_1, kitchenCfg[KITCHEN_SECTION_1], this);
-	section_2 = Chef::hireChef(RECIPE_2, kitchenCfg[KITCHEN_SECTION_2], this);
-	section_3 = Chef::hireChef(RECIPE_3, kitchenCfg[KITCHEN_SECTION_3], this);
+	section_1 = Chef::hireChef(RECIPE_1, kitchenCfg[KITCHEN_SECTION_1], this);// Hiring VeggieChef
+	section_2 = Chef::hireChef(RECIPE_2, kitchenCfg[KITCHEN_SECTION_2], this);// Hiring ChickenChef
+	section_3 = Chef::hireChef(RECIPE_3, kitchenCfg[KITCHEN_SECTION_3], this);// Hiring HamChef
 
 }
 
@@ -41,23 +34,13 @@ void Kitchen::readKitchenConfiguration() {
 	string s;
 	input_kitchen_config.seekg(0, std::ios::beg);
 	while (getline(input_kitchen_config, s)) {
-		kitchenCfg[s.substr(0, s.find(':'))] = stoi(s.substr(s.find(':') + 1));
-		//	counter++;
-
+		kitchenCfg[s.substr(0, s.find(':'))] = stoi(s.substr(s.find(':') + 1));	// Reading total number of Kitchen
 	}
 	Kitchen::NUM_OF_KITCHENS = kitchenCfg[NUMBER_OF_KITCHENS];
 }
-/*
- Kitchen* Kitchen::getKitchen() {
- if (kitchen_instance != NULL) {
- return kitchen_instance;
- } else {
- kitchen_instance = new Kitchen;
- return kitchen_instance;
- }
- }*/
+
 void Kitchen::showKitchens(vector<Kitchen> kitchens) {
-	cout << "\n--------------KICHEN-------\n" << endl;
+	cout << "\n--------------KICHEN-------\n" << endl;// Printing Kitchen id with number of Chef in each section
 	for (int i = 0; i < kitchens.size(); i++) {
 		cout << "Kitchen with" << kitchens[i].kitchen_id;
 		cout << "\nNumber of chefs in VeggieKitchen = "
@@ -70,7 +53,7 @@ void Kitchen::showKitchens(vector<Kitchen> kitchens) {
 }
 
 int Kitchen::getAChef(string speciality) {
-
+	// Retrieving Chef to cook Sandwich if free
 	if (!speciality.compare(RECIPE_1)) {
 		return (((section_1_pointer++) + 1) % section_1.size());
 	} else if (!speciality.compare(RECIPE_2)) {
@@ -82,7 +65,7 @@ int Kitchen::getAChef(string speciality) {
 
 vector<Chef*> Kitchen::getASection(string speciality) {
 
-	if (!speciality.compare(RECIPE_1)) {
+	if (!speciality.compare(RECIPE_1)) {// Retrieving appropriate section to cook the order requested
 		return section_1;
 	} else if (!speciality.compare(RECIPE_2)) {
 		return section_2;

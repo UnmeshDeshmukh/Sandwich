@@ -12,7 +12,11 @@
 #
 # for C++ define  CC = g++
 CC = g++
-CFLAGS  = -O0 -g3 -Wall -fopenmp -c -fmessage-length=0 -std=c++14 -I /home/vinit/275-project-2/boost_1_60_0/include /home/vinit/275-project-2/boost_1_60_0/lib/libboost_system.a /home/vinit/275-project-2/boost_1_60_0/lib/libboost_chrono.a
+
+#Relpace the BOOST value 
+BOOST = /boost
+
+CFLAGS  = -O0 -g3 -Wall -fopenmp -c -fmessage-length=0 -std=c++11 -I $(BOOST)/include $(BOOST)/lib/libboost_system.a $(BOOST)/lib/libboost_chrono.a
 
 # typing 'make' will invoke the first target entry in the file 
 # (in this case the default target entry)
@@ -25,7 +29,7 @@ default: build
 # countwords.o, counter.o, and scanner.o:
 #
 build:  restaurant inventory Kitchen Chef
-	$(CC) -o 275-project-2 restaurant.o inventory.o Kitchen.o Chef.o -fopenmp -I /home/vinit/275-project-2/boost_1_60_0/include /home/vinit/275-project-2/boost_1_60_0/lib/libboost_system.a /home/vinit/275-project-2/boost_1_60_0/lib/libboost_chrono.a -std=c++14
+	$(CC) -o 275-project-2 restaurant.o inventory.o Kitchen.o Chef.o -fopenmp -I $(BOOST)/include $(BOOST)/lib/libboost_system.a $(BOOST)/lib/libboost_chrono.a -std=c++11
 
 # To create the object file countwords.o, we need the source
 # files countwords.c, scanner.h, and counter.h:

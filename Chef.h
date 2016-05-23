@@ -2,9 +2,10 @@
  * Chef.h
  *
  *  Created on: May 22, 2016
- *      Author: vinit
+ *      Author: Vinit, Unmesh,	Faisal
  */
 
+// Variables, getters and setters for Chef.cpp
 #ifndef CHEF_H_
 #define CHEF_H_
 

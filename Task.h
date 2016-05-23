@@ -3,8 +3,10 @@
 
  *
  *  Created on: May 15, 2016
- *      Author: vinit
+ *      Author: Vinit, Usnmesh, Faisal
  */
+
+// Variables, getters and setters for taks
 #include <string>
 #include <vector>
 
@@ -42,7 +44,7 @@ public:
 	static vector<Task> getTasks(vector<Order>* orders) {
 		int task_count = 0;
 
-		vector<Task> tasks;
+		vector < Task > tasks;
 
 		for (vector<Order>::iterator it = orders->begin(); it != orders->end();
 				++it) {
@@ -59,25 +61,6 @@ public:
 			}
 			it->updateTaskCount(task_count - initial_task_count);
 		}
-
-		/*
-		 for (int i = 0; i < orders.size(); i++) {
-		 int initial_task_count = task_count;
-		 for (int j = 0; j < orders[i].getOrderitems().size(); j++) {
-
-		 for (int k = 0;
-		 k < orders[i].getOrderitems()[j].getOrderItemCount();
-		 k++) {
-
-		 Task* task = new Task(task_count++, orders[i].getOrderId(),
-		 orders[i].getOrderitems()[j].getOrderItemName());
-		 tasks.push_back(*task);
-		 }
-		 }
-
-		 orders[i].updateTaskCount(task_count - initial_task_count);
-		 }*/
-
 		return tasks;
 	}
 
