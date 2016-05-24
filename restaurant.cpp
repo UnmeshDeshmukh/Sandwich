@@ -28,12 +28,12 @@ int main(int argc, char* argv[]) {
 	vector<Order> orders;				// Vector to store all order information
 	vector<Task> tasks;						// Vector to store task information
 	map<Order, vector<Task>> reducer;// Reducer map to track if complete order is complete
-	std::string filename=argv[1];
+	std::string filename = argv[1];
 
 	char ans;
 	int num_of_task_distribution_threads;
 	int num_of_reducer_threads;
-	orders = Order::read_Orders(filename.c_str());							// Reading orders
+	orders = Order::read_Orders(filename.c_str());			// Reading orders
 	Order::print_Orders(orders);							// Printing orders
 
 	tasks = Task::getTasks(&orders);// Determining individual tasks to be completed
@@ -133,6 +133,7 @@ int main(int argc, char* argv[]) {
 
 		cout << "Do you want to replenish?" << endl;
 		cin >> ans;
+		cout << "Press Y to replenish the stock" << endl;
 		initial_time = omp_get_wtime();
 		if (ans != 'Y')
 			break;
