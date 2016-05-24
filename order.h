@@ -1,14 +1,15 @@
+// Variables, getters and setters for orders
+
 #include <iostream>
 #include <string>
 #include "configuration_constants.h"
 #include <fstream>
-//#include <stdlib>
 #include <vector>
 #include <omp.h>
 
 using namespace std;
 
-class OrderItem {
+class OrderItem {						//Class to define individual OrderItem
 	int order_item_id;
 	string order_item_name;
 	int order_item_count;
@@ -51,7 +52,7 @@ public:
 	}
 };
 
-class Order {
+class Order {								// Class to define Orders received
 
 	int order_id;
 	string customer_name;
@@ -93,7 +94,7 @@ public:
 		return order_status;
 	}
 
-	static vector<Order> read_Orders() {
+	static vector<Order> read_Orders(string filename) {			// Function to read orders
 
 		string ID, name, receipe_1, receipe_2, receipe_3, count;
 		int index = 0;
@@ -101,8 +102,7 @@ public:
 
 		vector<Order> orders_local;
 
-		std::ifstream csv_Orders("order.csv");
-		//Order* optr = orders;
+		std::ifstream csv_Orders(filename);		// File to read orders from
 		while (csv_Orders.good()) {
 			vector<OrderItem> orderitems;
 			index_order_item = 0;
@@ -139,45 +139,29 @@ public:
 				orderitems.push_back(*orderitem);
 			}
 
-//		    getline(csv_Orders, count) ; //diff
-//		    cout << "Count: " <<  count; // diff
-
 			Order* order = new Order(stoi(ID), name, orderitems);
 			orders_local.push_back(*order);
-			//Order  *optr = order;
-			//orders_local[index].order_id = ID;
-			//orders_local[index].customer_name = name;
-			//orders_local[index].orderitems = orderitems;
-			//index++;
 			cout << endl;
 
 		}
 
-		//	print_Orders(orders);
 		return orders_local;
 	}
 
-	static void print_Orders(vector<Order> orders) {
+	static void print_Orders(vector<Order> orders) {// Function to print all the orders recieved
 		cout << "\n---ORDERS---\n";
 
+		for (int i = 0; i < orders.size(); i++) {
 
-
-			for (int i = 0; i < orders.size(); i++) {
-
-				cout << "Order ID :" << orders[i].getOrderId()
-						<< orders[i].customer_name << "\tTASK COUNT:"
-						<< orders[i].getTaskCount() << "\tORDER STATUS:"
-						<< orders[i].getStatus() << endl;
-			}
+			cout << "Order ID :" << orders[i].getOrderId()
+					<< orders[i].customer_name << "\tTASK COUNT:"
+					<< orders[i].getTaskCount() << "\tORDER STATUS:"
+					<< orders[i].getStatus() << endl;
+		}
 
 		cout << "\n---ORDERS---\n";
 
 	}
-	/*
-	 void cook(string recipe){
-	 cout<<"Chef with id ("<<chef_id<<")is cooking "<<recipe<<endl;
-
-	 }*/
 
 	string getCustomerName() {
 		return customer_name;
